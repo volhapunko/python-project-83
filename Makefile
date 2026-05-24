@@ -10,8 +10,9 @@ build:
 	./build.sh
 render-start:
 	gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
-check: lint test
+lint:
+	uv run ruff check page_analyzer/
 test:
 	uv run pytest
 test-coverage:
-	uv run pytest --cov=gendiff --cov-report=xml:coverage.xml
+	uv run pytest --cov=page_analyzer --cov-report=xml:coverage.xml
