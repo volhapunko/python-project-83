@@ -10,8 +10,9 @@ build:
 	./build.sh
 render-start:
 	gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+check: lint test
 lint:
-	uv run ruff check page_analyzer/
+	uv run ruff check
 test:
 	uv run pytest
 test-coverage:
