@@ -1,4 +1,3 @@
-import psycopg
 import os
 from flask import Flask, flash, render_template, request, redirect, url_for
 from dotenv import load_dotenv
