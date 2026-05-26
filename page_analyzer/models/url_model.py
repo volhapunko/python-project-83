@@ -22,8 +22,17 @@ def add_url_to_db(normalized_url):
 def get_all_urls():
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cur:
-            cur.execute('SELECT id, name, created_at ' \
-                        'FROM urls ORDER BY created_at DESC')
+            cur.execute('''
+                SELECT u.id, u.name, u.created_at, 
+                       (SELECT created_at FROM url_checks 
+                        WHERE url_id = u.id 
+                        ORDER BY created_at DESC LIMIT 1) as last_check,
+                       (SELECT status_code FROM url_checks 
+                        WHERE url_id = u.id 
+                        ORDER BY created_at DESC LIMIT 1) as last_status
+                FROM urls u 
+                ORDER BY u.created_at DESC
+            ''')
             urls = cur.fetchall()
             return urls
         
