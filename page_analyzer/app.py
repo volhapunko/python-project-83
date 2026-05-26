@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse, urlunparse
 import validators
 from page_analyzer.models import url_model
+from page_analyzer.models import check_model
 
 
 load_dotenv()
@@ -66,4 +67,17 @@ def show_url(id):
     if not url:
         flash('Страница не найдена', 'danger')
         return redirect(url_for('list_urls'))
-    return render_template('url.html', url=url)
+    checks = check_model.get_checks_by_url_id(id)
+    return render_template('url.html', url=url, checks=checks)
+
+
+@app.route('/urls/<int:id>/checks', methods=['POST'])
+def run_check(id):
+    url = url_model.get_url_by_id(id)
+    if not url:
+        flash('Страница не найдена', 'danger')
+        return redirect(url_for('list_urls'))
+    check_model.add_check(id)
+    flash('Страница успешно проверена', 'success')
+    return redirect(url_for('show_url', id=id))
+
