@@ -5,6 +5,7 @@ from urllib.parse import urlparse, urlunparse
 import validators
 from page_analyzer.models import url_model
 from page_analyzer.models import check_model
+import requests
 
 
 load_dotenv()
@@ -77,7 +78,15 @@ def run_check(id):
     if not url:
         flash('Страница не найдена', 'danger')
         return redirect(url_for('list_urls'))
-    check_model.add_check(id)
-    flash('Страница успешно проверена', 'success')
+    try:
+        response = requests.get(url[1], timeout=5)
+        response.raise_for_status()
+        
+        check_model.add_check_with_status(id, response.status_code)
+        flash('Страница успешно проверена', 'success')
+        
+    except requests.exceptions.RequestException:
+        flash('Произошла ошибка при проверке', 'danger')
+    
     return redirect(url_for('show_url', id=id))
 
