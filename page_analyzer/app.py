@@ -51,7 +51,7 @@ def urls_post():
         flash('Страница уже существует', 'warning')
         existing_url = url_model.get_url_by_name(normalized_url)
         if existing_url:
-            return redirect(url_for('show_url', id=existing_url['id']))
+            return redirect(url_for('show_url', id=existing_url[0]))
     url_id = url_model.add_url_to_db(normalized_url)
     flash('Страница успешно добавлена', 'success')
     return redirect(url_for('show_url', id=url_id))
