@@ -8,9 +8,11 @@
   </head>
   <body>
     <nav class="navbar bg-dark" data-bs-theme="dark">
-        <div class="container d-flex gap-3">
-            <a class="text-white text-decoration-none" href="/">Анализатор страниц</a>
-            <a class="text-white text-decoration-none" href="{{ url_for('list_urls') }}">Сайты</a>
+        <div class="container">
+            <div class="d-flex gap-3">
+                <a class="text-white text-decoration-none" href="/">Анализатор страниц</a>
+                <a class="text-white text-decoration-none" href="{{ url_for('list_urls') }}">Сайты</a>
+            </div>
         </div>
     </nav>
 
@@ -36,7 +38,7 @@
 
     <footer class="border-top mt-5 py-3 text-center text-muted">
         <div class="container">
-            Hexlet
+            <a href="https://hexlet.io" target="_blank" class="text-decoration-none text-muted">Hexlet</a>
         </div>
     </footer>
 
