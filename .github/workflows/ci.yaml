@@ -38,3 +38,5 @@ jobs:
             -Dsonar.projectKey=volhapunko_python-project-83
             -Dsonar.organization=volhapunko
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.exclusions=tests/**
+            -Dsonar.coverage.exclusions=tests/**
