@@ -6,6 +6,7 @@ import validators
 from page_analyzer.models import url_model
 from page_analyzer.models import check_model
 import requests
+from bs4 import BeautifulSoup
 
 
 load_dotenv()
@@ -82,9 +83,16 @@ def run_check(id):
         response = requests.get(url[1], timeout=5)
         response.raise_for_status()
         
-        check_model.add_check_with_status(id, response.status_code)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        h1_tag = soup.find('h1')
+        h1 = h1_tag.get_text(strip=True) if h1_tag else ''
+        title_tag = soup.find('title')
+        title = title_tag.get_text(strip=True) if title_tag else ''
+        meta_tag = soup.find('meta', attrs={'name': 'description'})
+        description = meta_tag.get('content', '').strip() if meta_tag else ''
+        check_model.add_check_full(id, response.status_code, h1, title, description)
         flash('Страница успешно проверена', 'success')
-        
+
     except requests.exceptions.RequestException:
         flash('Произошла ошибка при проверке', 'danger')
     

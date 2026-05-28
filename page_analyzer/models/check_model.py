@@ -53,3 +53,15 @@ def add_check_with_status(url_id, status_code):
                 (url_id, status_code, datetime.now())
             )
             conn.commit()
+
+
+def add_check_full(url_id, status_code, h1, title, description):
+        with psycopg.connect(DATABASE_URL) as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    'INSERT INTO url_checks ' \
+                    '(url_id, status_code, h1, title, description, created_at) ' \
+                    'VALUES (%s, %s, %s, %s, %s, %s)',
+                (url_id, status_code, h1, title, description, datetime.now())
+            )
+            conn.commit()

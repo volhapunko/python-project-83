@@ -14,4 +14,5 @@ dependencies = [
     "pytest-cov",
     "validators>=0.35.0",
     "requests>=2.34.2",
+    "beautifulsoup4>=4.14.3",
 ]
