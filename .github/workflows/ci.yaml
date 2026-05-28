@@ -21,3 +21,15 @@ jobs:
       - name: Run linter and pytest
         run: |
           make check
+          - name: Run test coverage
+          run: |
+            make test-coverage
+        - name: SonarQubeScan
+          uses: SonarSource/sonarqube-scan-action@v6
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          with:
+            args: >
+              -Dsonar.projectKey=volhapunko_python-project-83
+              -Dsonar.organization=volhapunko
+              -Dsonar.python.coverage.reportPaths=coverage.xml
